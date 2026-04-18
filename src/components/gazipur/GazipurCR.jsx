@@ -3,7 +3,8 @@ import SkeletonRow from "@/components/skeletons/SkeletonRowSection";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
-const AllItemsPage = () => {
+const GazipurCR = ({apiURL}) => {
+  console.log(apiURL)
   const [loading, setLoading] = useState(true);
   const [allCaseData, setAllCaseData] = useState([]);
   const [search, setSearch] = useState({
@@ -16,7 +17,7 @@ const AllItemsPage = () => {
   });
 
 useEffect(() => {
-  fetch("http://localhost:3000/api/allcases")
+   fetch(apiURL)
     .then(res => res.json())
     .then(data => {
       setAllCaseData(data);
@@ -40,6 +41,15 @@ const filteredData = allCaseData.filter((item) => {
     item.article.toLowerCase().includes(search.article.toLowerCase()) &&
     item.articleDate.some(date => date.includes(search.articleDate))
   );
+}).sort((a, b) => {
+  // const numA = parseInt(a.caseNumber.split("/")[0]);
+  // const numB = parseInt(b.caseNumber.split("/")[0]);
+  const [numA, yearA] = a.caseNumber.split("/").map(Number);
+  const [numB, yearB] = b.caseNumber.split("/").map(Number);
+
+  if (yearA !== yearB) return yearA - yearB;
+
+  return numA - numB; // ছোট → বড় (ascending)
 });
 
 const handleDownload = async (caseItem) => {
@@ -72,8 +82,8 @@ const handleDownload = async (caseItem) => {
               <th>আসামী</th>
               <th>ধারা</th>
               <th>তারিখ</th>
-              {/* <th>মামলা অবস্থা</th>
-              <th>আদালত নং</th> */}
+              <th>মামলা অবস্থা</th>
+              {/* <th>আদালত নং</th> */}
               <th>মন্তব্য</th>
               <th className="flex justify-end">Action</th>
             </tr>
@@ -137,6 +147,7 @@ const handleDownload = async (caseItem) => {
                 />
               </td>
               <td></td>
+              <td></td>
               {/* 🔥 Action Buttons */}
               <td className="flex gap-2 justify-end">
               </td>
@@ -145,6 +156,12 @@ const handleDownload = async (caseItem) => {
 
             {loading
             ? Array.from({ length: 16 }).map((_, i) => <SkeletonRow key={i} />)
+            :filteredData.length === 0 ? 
+              <tr>
+                <td colSpan="10" className="text-center py-6 text-red-500 font-semibold">
+                  কোনো তথ্য জমা যায়নি (Item not found)
+                </td>
+              </tr>
             :filteredData.map((caseItem, index) => (
               <tr key={caseItem._id} className="">
                 <th className="bg-gray-200">{index + 1}</th>
@@ -167,8 +184,8 @@ const handleDownload = async (caseItem) => {
                     <div key={idx}>{date}</div>
                   ))}
                 </td>
-                {/* <td>{caseItem.caseStatus}</td>
-                <td>{caseItem.courtNo}</td> */}
+                <td>{caseItem.caseStatus}</td>
+                {/* <td>{caseItem.courtNo}</td> */}
                 <td>{caseItem.note}</td>
                 {/* 🔥 Action Buttons */}
                 <td className="flex gap-2 flex-col items-center justify-end">
@@ -198,4 +215,4 @@ const handleDownload = async (caseItem) => {
   );
 };
 
-export default AllItemsPage;
+export default GazipurCR;

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation"; // ✅ ADD THIS
 import Swal from "sweetalert2";
+import CaseDetailsSkeleton from "@/components/skeletons/CaseDetailsSkeleton";
 
 export default function CaseDetailsCard() {
   const [isEditing, setIsEditing] = useState(false);
@@ -10,6 +11,7 @@ export default function CaseDetailsCard() {
   const params = useParams(); // ✅ এখান থেকে params নাও
   const id = params?.id;
   const router=useRouter(); // ✅ router add
+  const [loading, setLoading] = useState(true);
 
   const [data, setData] = useState(null); // better null
 
@@ -20,7 +22,8 @@ export default function CaseDetailsCard() {
       .then(res => res.json())
       .then(singleData => {
         setData(singleData);
-        setFormData(singleData); // ✅ important
+        setFormData(singleData);
+        setLoading(false);
       });
   }, [id]); // ✅ dependency add
 
@@ -139,8 +142,8 @@ const handleDeleteDate = (index) => {
       confirmButtonColor: "#3085d6",
     });
   };
-
-  if (!data) return <p>Loading...</p>; // ✅ loading handle
+  if (loading) return <CaseDetailsSkeleton />;
+  if (!data) return <CaseDetailsSkeleton />; // ✅ loading handle
 
   return (
     <div className="max-w-4xl mx-auto p-4">

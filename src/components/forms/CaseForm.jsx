@@ -156,17 +156,15 @@ export default function CaseForm() {
             <select name="policeStation" className="select select-bordered" onChange={handleChange}>
               <option value="">Select</option>
               <option value="গাজীপুর সদর">গাজীপুর সদর</option>
-              <option value="জয়দেবপুর">জয়দেবপুর</option>
-              <option value="শ্রীপুর">শ্রীপুর</option>
-              <option value="কোনবাড়ি">কোনবাড়ি</option>
               <option value="বাসন">বাসন</option>
-              <option value="কোনবাড়ি">কোনবাড়ি</option>
-              <option value="কাশেমপুর">কাশেমপুর</option>
-              <option value="টঙ্গি">টঙ্গি</option>
               <option value="টঙ্গি পূর্ব">টঙ্গি পূর্ব</option>
               <option value="টঙ্গি পশ্চিম">টঙ্গি পশ্চিম</option>
-              <option value="গাছা">গাছা</option>
+              <option value="কোনবাড়ি">কোনবাড়ি</option>
+              <option value="কাশেমপুর">কাশেমপুর</option>
               <option value="পূবাইল">পূবাইল</option>
+              <option value="গাছা">গাছা</option>
+              <option value="জয়দেবপুর">জয়দেবপুর</option>
+              <option value="শ্রীপুর">শ্রীপুর</option>
               <option value="কাপাসিয়া">কাপাসিয়া</option>
               <option value="কালিয়াকৈর">কালিয়াকৈর</option>
               <option value="কালীগঞ্জ">কালীগঞ্জ</option>

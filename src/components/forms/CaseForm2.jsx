@@ -7,7 +7,6 @@ export default function CaseForm() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     caseNumber: "",
-    caseYear: "",
     caseType: "",
     filingDate: "",
     uploadDate: new Date().toISOString().split("T")[0],
@@ -50,12 +49,12 @@ export default function CaseForm() {
     setFormData({ ...formData, image: data.data.url });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validation
     const requiredFields = [
       "caseNumber",
-      "caseYear",
       "plaintiff",
       "defendant",
       "policeStation",
@@ -64,6 +63,7 @@ export default function CaseForm() {
 
     for (let field of requiredFields) {
       if (!formData[field]) {
+        
         Swal.fire({
           icon: "error",
           title: "Error!",
@@ -74,76 +74,91 @@ export default function CaseForm() {
       }
     }
 
-    // 🔥 Mapping
-const apiMap = {
-  CR: {
-    bason: "gazipurcr/bason",
-    gacha: "gazipurcr/gacha",
-    gazipur_sadar: "gazipurcr/gazipursadar",
-    joydebpur: "gazipurcr/joydebpur",
-    kaliakair: "gazipurcr/kaliakair",
-    kaliganj: "gazipurcr/kaliganj",
-    kapashia: "gazipurcr/kapashia",
-    kashempur: "gazipurcr/kashempur",
-    kona_bari: "gazipurcr/konabari",
-    pubail: "gazipurcr/pubail",
-    sreepur: "gazipurcr/sreepur",
-    tongi_east: "gazipurcr/tongieast",
-    tongi_west: "gazipurcr/tongiwest",
-  },
-  GR: {
-    bason: "gazipurgr/bason",
-    gacha: "gazipurgr/gacha",
-    gazipur_sadar: "gazipurgr/gazipursadar",
-    joydebpur: "gazipurgr/joydebpur",
-    kaliakair: "gazipurgr/kaliakair",
-    kaliganj: "gazipurgr/kaliganj",
-    kapashia: "gazipurgr/kapashia",
-    kashempur: "gazipurgr/kashempur",
-    kona_bari: "gazipurgr/konabari",
-    pubail: "gazipurgr/pubail",
-    sreepur: "gazipurgr/sreepur",
-    tongi_east: "gazipurgr/tongieast",
-    tongi_west: "gazipurgr/tongiwest",
-  }
+    // if (!formData.image) {
+    //   alert("ছবি আপলোড করুন ❗");
+    //   return;
+    // }
+
+
+    if(formData.caseType==="CR"){
+      console.log(formData);
+      if(formData.policeStation==="bason"){
+        fetch("http://localhost:3000/api/gazipurcr/bason", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+      }else if(formData.policeStation==="gacha"){
+        fetch("http://localhost:3000/api/gazipurcr/gacha", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+      }else if(formData.policeStation==="gazipursadar"){
+        fetch("http://localhost:3000/api/gazipurcr/gacha", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+      }else{
+        alert("আপনার দেওয়া থানা খুজে পাওয়া যাই নাই এবং serve এ Data জমা হয় নাই")
+      }
+    }else if(formData.caseType==="GR"){
+      if(formData.policeStation==="bason"){
+        fetch("http://localhost:3000/api/gazipurgr/bason", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+      }else if(formData.policeStation==="gacha"){
+        fetch("http://localhost:3000/api/gazipurgr/gacha", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+      }else if(formData.policeStation==="gazipur_sadar"){
+        fetch("http://localhost:3000/api/gazipurgr/gazipursadar", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+      }else{
+        alert("আপনার দেওয়া থানা খুজে পাওয়া যাই নাই এবং serve এ Data জমা হয় নাই")
+      }
+    }else{
+      alert("আপনার Data Server এ জনা হয় নাই");
+    }
+
+    // fetch("http://localhost:3000/api/allcases", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(formData),
+    // });
+
+
+    Swal.fire({
+      icon: "success",
+      title: "Success!",
+      text: "মামলা সফলভাবে জমা হয়েছে!",
+      confirmButtonColor: "#3085d6",
+    });
+    // router.push("/allcase");
+
 };
-
-    const { caseType, policeStation } = formData;
-
-    const endpoint = apiMap[caseType]?.[policeStation];
-
-    if (!endpoint) {
-      Swal.fire({
-        icon: "error",
-        title: "Error!",
-        text: "থানা খুঁজে পাওয়া যায়নি ❗",
-      });
-      return;
-    }
-
-    try {
-      await fetch(`http://localhost:3000/api/${endpoint}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      Swal.fire({
-        icon: "success",
-        title: "Success!",
-        text: "মামলা সফলভাবে জমা হয়েছে!",
-      });
-
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Server Error!",
-        text: "ডাটা পাঠাতে সমস্যা হয়েছে ❗",
-      });
-    }
-  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-gray-100 p-4">
@@ -156,34 +171,14 @@ const apiMap = {
             <span>📁</span>
             <span>Case Entry Form</span>
           </div>
-          <span>Date: {new Date().toLocaleDateString("bn-bd")}</span>
+          <span>Date: {new Date().toISOString().split("T")[0]}</span>
         </h2>
 
-        <div className="flex items-center gap-4">
-          <div>
-            <label className="label font-medium">মামলা নম্বর * </label>
-            <input type="text" name="caseNumber" className="input input-bordered w-full" onChange={handleChange} />
-          </div>
-          <div>
-            <label className="label font-medium">সাল * </label>
-            <select name="caseYear" className="select select-bordered" onChange={handleChange}>
-              <option value="">Select</option>
-              <option value="2020">20</option>
-              <option value="2021">21</option>
-              <option value="2022">22</option>
-              <option value="2023">23</option>
-              <option value="2024">24</option>
-              <option value="2025">25</option>
-              <option value="2026">26</option>
-              <option value="2027">27</option>
-              <option value="2028">28</option>
-              <option value="2029">29</option>
-              <option value="2030">30</option>
-              <option value="2031">31</option>
-              <option value="2032">32</option>
-            </select>
-          </div>
+        <div>
+          <label className="label font-medium">মামলা নম্বর *</label>
+          <input type="text" name="caseNumber" className="input input-bordered w-full" onChange={handleChange} />
         </div>
+
         <div className="grid grid-cols-2 gap-4">
           {/* <div>
             <label className="label font-medium">মামলার ধরণ</label>

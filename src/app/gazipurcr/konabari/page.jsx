@@ -1,9 +1,8 @@
-const KonaBari=()=>{
-    return (
-        <div>
-            KonaBari
-        </div>
-    )
+import GazipurCR from "@/components/gazipur/GazipurCR";
+const apiURL=process.env.apiKonabariCR;
+
+const Konabari=()=>{
+  return <GazipurCR apiURL={apiURL}/>
 }
 
-export default KonaBari;
+export default Konabari;

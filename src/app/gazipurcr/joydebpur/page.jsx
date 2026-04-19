@@ -1,9 +1,8 @@
+import GazipurCR from "@/components/gazipur/GazipurCR";
+const apiURL=process.env.apiJoydebpurCR;
+
 const Joydebpur=()=>{
-    return (
-        <div>
-            Joydebpur
-        </div>
-    )
+  return <GazipurCR apiURL={apiURL}/>
 }
 
 export default Joydebpur;

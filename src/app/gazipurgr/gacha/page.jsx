@@ -1,9 +1,8 @@
+import GazipurGR from "@/components/gazipur/GazipurGR";
+const apiURL=process.env.apiGachaGR;
+
 const Gacha=()=>{
-    return (
-        <div>
-            Gacha
-        </div>
-    )
+  return <GazipurGR apiURL={apiURL}/>
 }
 
 export default Gacha;

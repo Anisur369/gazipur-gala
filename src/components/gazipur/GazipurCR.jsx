@@ -4,11 +4,11 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 
 const GazipurCR = ({apiURL}) => {
-  console.log(apiURL)
   const [loading, setLoading] = useState(true);
   const [allCaseData, setAllCaseData] = useState([]);
   const [search, setSearch] = useState({
     caseNumber: "",
+    caseYear: "",
     filingDate: "",
     plaintiff: "",
     defendant: "",
@@ -33,8 +33,12 @@ useEffect(() => {
   };
 
 const filteredData = allCaseData.filter((item) => {
+  if(!item.caseYear){
+    item.caseYear=""
+  }
   return (
     item.caseNumber.toLowerCase().includes(search.caseNumber.toLowerCase()) &&
+    item.caseYear.includes(search.caseYear.toLowerCase()) &&
     item.filingDate.includes(search.filingDate) &&
     item.plaintiff.toLowerCase().includes(search.plaintiff.toLowerCase()) &&
     item.defendant.toLowerCase().includes(search.defendant.toLowerCase()) &&
@@ -73,16 +77,35 @@ const handleDownload = async (caseItem) => {
     <div className="py-2 sm:p-2">
       <div className="overflow-x-auto rounded-xl shadow-lg border border-gray-200">
         <table className="table table-zebra table-sm">
+          
           <thead className="bg-gray-100 text-gray-800 text-sm uppercase">
             <tr>
               <th>No.</th>
-              <th>মামল নং</th>
+              <th className="w-[20px]">
+                <span>মামল নং</span>
+                <select name="caseYear" className="" onChange={handleSearchChange}>
+                  <option value="">Select</option>
+                  <option value="2020">2020</option>
+                  <option value="2021">2021</option>
+                  <option value="2022">2022</option>
+                  <option value="2023">2023</option>
+                  <option value="2024">2024</option>
+                  <option value="2025">2025</option>
+                  <option value="2026">2026</option>
+                  <option value="2027">2027</option>
+                  <option value="2028">2028</option>
+                  <option value="2029">2029</option>
+                  <option value="2030">2030</option>
+                  <option value="2031">2031</option>
+                  <option value="2032">2032</option>
+                </select>
+              </th>
               <th>ফাইলিং তারিখ</th>
               <th>বাদী</th>
               <th>আসামী</th>
               <th>ধারা</th>
-              <th>তারিখ</th>
-              <th>মামলা অবস্থা</th>
+              <th>তারিখ / মামলা অবস্থা</th>
+              {/* <th>মামলা অবস্থা</th> */}
               {/* <th>আদালত নং</th> */}
               <th>মন্তব্য</th>
               <th className="flex justify-end">Action</th>
@@ -98,7 +121,7 @@ const handleDownload = async (caseItem) => {
                   name="caseNumber"
                   onChange={handleSearchChange}
                   placeholder="মামল নম্বর খুঁজুন"
-                  className="input input-sm input-bordered w-full rounded-lg"
+                  className="input input-sm input-bordered rounded-lg"
                 />
               </td>
               <td>
@@ -107,7 +130,7 @@ const handleDownload = async (caseItem) => {
                   name="filingDate"
                   onChange={handleSearchChange}
                   placeholder="তারিখ খুঁজুন"
-                  className="input input-sm input-bordered w-full rounded-lg"
+                  className="w-29 input input-sm input-bordered rounded-lg"
                 />
               </td>
               <td className="whitespace-normal">
@@ -147,7 +170,7 @@ const handleDownload = async (caseItem) => {
                 />
               </td>
               <td></td>
-              <td></td>
+              {/* <td></td> */}
               {/* 🔥 Action Buttons */}
               <td className="flex gap-2 justify-end">
               </td>
@@ -169,7 +192,7 @@ const handleDownload = async (caseItem) => {
                   <div>{caseItem.policeStation}</div>
                   <div><span>{caseItem.caseType}</span> <span>{caseItem.caseNumber}</span></div>
                 </td>
-                <td>{caseItem.filingDate}</td>
+                <td>{new Date(caseItem.filingDate).toLocaleDateString("bn-bd")}</td>
                 <td className="">
                   {caseItem.plaintiff}
                 </td>
@@ -179,12 +202,15 @@ const handleDownload = async (caseItem) => {
                 <td className="">
                   {caseItem.article}
                 </td>
-                <td>
+                <td className="flex items-center gap-2">
+                  <div>
                   {caseItem.articleDate.map((date, idx) => (
-                    <div key={idx}>{date}</div>
+                    <div key={idx}>{new Date(date).toLocaleDateString("bn-bd")}</div>
                   ))}
+                  </div>
+                  <div>{caseItem.caseStatus}</div>
                 </td>
-                <td>{caseItem.caseStatus}</td>
+                {/* <td>{caseItem.caseStatus}</td> */}
                 {/* <td>{caseItem.courtNo}</td> */}
                 <td>{caseItem.note}</td>
                 {/* 🔥 Action Buttons */}

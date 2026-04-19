@@ -1,9 +1,8 @@
+import GazipurCR from "@/components/gazipur/GazipurCR";
+const apiURL=process.env.apiKashempurCR;
+
 const Kashempur=()=>{
-    return (
-        <div>
-            Kashempur
-        </div>
-    )
+  return <GazipurCR apiURL={apiURL}/>
 }
 
 export default Kashempur;

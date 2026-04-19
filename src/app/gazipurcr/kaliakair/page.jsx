@@ -1,9 +1,8 @@
+import GazipurCR from "@/components/gazipur/GazipurCR";
+const apiURL=process.env.apiKaliakairCR;
+
 const Kaliakair=()=>{
-    return (
-        <div>
-            Kaliakair
-        </div>
-    )
+  return <GazipurCR apiURL={apiURL}/>
 }
 
 export default Kaliakair;

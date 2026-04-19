@@ -1,8 +1,8 @@
 import GazipurGR from "@/components/gazipur/GazipurGR";
-const apiURL=process.env.apiJoydebpurGR;
+const apiURL=process.env.apiKonabariGR;
 
-const Joydebpur=()=>{
+const Konabari=()=>{
   return <GazipurGR apiURL={apiURL}/>
 }
 
-export default Joydebpur;
+export default Konabari;

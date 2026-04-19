@@ -1,9 +1,8 @@
-const Kapashia = () => {
-  return (
-    <div>
-        <h1>Kapashia</h1>
-    </div>
-  );
+import GazipurCR from "@/components/gazipur/GazipurCR";
+const apiURL=process.env.apiKapashiaCR;
+
+const Kapashia=()=>{
+  return <GazipurCR apiURL={apiURL}/>
 }
 
 export default Kapashia;

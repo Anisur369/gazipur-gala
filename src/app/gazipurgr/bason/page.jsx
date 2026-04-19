@@ -1,9 +1,8 @@
+import GazipurGR from "@/components/gazipur/GazipurGR";
+const apiURL=process.env.apiBasonGR;
+
 const Bason=()=>{
-    return (
-        <div>
-            Bason
-        </div>
-    )
+  return <GazipurGR apiURL={apiURL}/>
 }
 
 export default Bason;

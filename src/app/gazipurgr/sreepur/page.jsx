@@ -1,7 +1,8 @@
-import GazipurCR from "@/components/gazipur/GazipurCR";
-
-const apiURL="http://localhost:3000/api/gazipurgr/sreepur";
+import GazipurGR from "@/components/gazipur/GazipurGR";
+const apiURL=process.env.apiSreepurGR;
 
 const Sreepur=()=>{
-  return <GazipurCR apiURL={apiURL}/>
+  return <GazipurGR apiURL={apiURL}/>
 }
+
+export default Sreepur;

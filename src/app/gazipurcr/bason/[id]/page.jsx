@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation"; // ✅ ADD THIS
 import Swal from "sweetalert2";
 import CaseDetailsSkeleton from "@/components/skeletons/CaseDetailsSkeleton";
+const apiURL=process.env.NEXT_PUBLIC_apiBasonCR;
 
 export default function CaseDetailsCard() {
   const [isEditing, setIsEditing] = useState(false);
@@ -18,7 +19,7 @@ export default function CaseDetailsCard() {
   useEffect(() => {
     if (!id) return;
 
-    fetch(`http://localhost:3000/api/allcases/${id}`)
+    fetch(`${apiURL}/${id}`)
       .then(res => res.json())
       .then(singleData => {
         setData(singleData);
@@ -48,7 +49,7 @@ export default function CaseDetailsCard() {
 
   // যদি user Yes দেয়
   if (result.isConfirmed) {
-    const res = await fetch(`http://localhost:3000/api/allcases/${id}`, {
+    const res = await fetch(`${apiURL}/${id}`, {
       method: "DELETE",
     });
 
@@ -124,7 +125,7 @@ const handleDeleteDate = (index) => {
 
 
   const handleUpdate = async () => {
-    const res = await fetch(`http://localhost:3000/api/allcases/${id}`, {
+    const res = await fetch(`${apiURL}/${id}`, {
       method: "PUT", // or PATCH
       headers: {
         "Content-Type": "application/json",

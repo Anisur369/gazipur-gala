@@ -216,7 +216,7 @@ const handleDownload = async (caseItem) => {
                 {/* 🔥 Action Buttons */}
                 <td className="flex gap-2 flex-col items-center justify-end">
                   <div className="flex gap-2">
-                    <Link href={`/allcase/${caseItem._id}`} className="btn btn-xs btn-info text-white w-28">
+                    <Link href={`/gazipurcr/${caseItem.policeStation.replace(/_/g, "")}/${caseItem._id}`} className="btn btn-xs btn-info text-white w-28">
                       বিস্তারিত দেখুন
                     </Link>
 

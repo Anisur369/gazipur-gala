@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation"; // ✅ ADD THIS
 import Swal from "sweetalert2";
 import CaseDetailsSkeleton from "@/components/skeletons/CaseDetailsSkeleton";
-const apiURL=process.env.NEXT_PUBLIC_apiSreepurCR;
+const apiURL=process.env.NEXT_PUBLIC_apiTongiEastCR;
 
 export default function CaseDetailsCard() {
   const [isEditing, setIsEditing] = useState(false);
@@ -59,7 +59,7 @@ export default function CaseDetailsCard() {
         title: "Deleted!",
         text: "Case deleted successfully.",
       });
-      router.push("/allcase");
+      router.back(-1)
     } else {
       Swal.fire({
         icon: "error",
@@ -146,11 +146,28 @@ const handleDeleteDate = (index) => {
   if (loading) return <CaseDetailsSkeleton />;
   if (!data) return <CaseDetailsSkeleton />; // ✅ loading handle
 
+
+const policeStationMap = {
+  gazipur_sadar: "গাজীপুর সদর",
+  bason: "বাসন",
+  tongi_east: "টঙ্গি পূর্ব",
+  tongi_west: "টঙ্গি পশ্চিম",
+  kona_bari: "কোনাবাড়ি",
+  kashempur: "কাশেমপুর",
+  pubail: "পূবাইল",
+  gacha: "গাছা",
+  joydebpur: "জয়দেবপুর",
+  sreepur: "শ্রীপুর",
+  kapashia: "কাপাসিয়া",
+  kaliakair: "কালিয়াকৈর",
+  kaliganj: "কালীগঞ্জ",
+};
+
   return (
     <div className="max-w-4xl mx-auto p-4">
-      <Link href="/allcase" className="text-white mb-4 inline-block border border-blue-200 px-3 py-1 rounded-lg bg-green-600 hover:bg-blue-200 transition text-center items-center">
-        &larr; Back to All Cases
-      </Link>
+      <button onClick={() => router.back(-1)} className="text-white mb-4 inline-block border border-blue-200 px-3 py-1 rounded-lg bg-green-600 hover:bg-blue-200 transition text-center items-center">
+        &larr; Back to page
+      </button>
       <div className="bg-white shadow-xl rounded-2xl p-6 border">
         
         <div className="flex justify-between items-center mb-4">
@@ -186,12 +203,21 @@ const handleDeleteDate = (index) => {
           <p>
             <strong>কেস টাইপ:</strong>{" "}
             {isEditing ? (
-              <input
-                name="caseType"
-                value={formData.caseType || ""}
-                onChange={handleChange}
-                className="border px-2 py-1 rounded"
-              />
+              // <input
+              //   name="caseType"
+              //   value={formData.caseType || ""}
+              //   onChange={handleChange}
+              //   className="border px-2 py-1 rounded"
+              // />
+                <select
+                  name="policeStation"
+                  value={formData.caseType || ""}
+                  className="select select-bordered"
+                  onChange={handleChange}
+                >
+                  <option value="CR">CR</option>
+                  <option value="GR">GR</option>
+                </select>
             ) : (
               data.caseType
             )}
@@ -223,7 +249,7 @@ const handleDeleteDate = (index) => {
               data.uploadDate
             )}
           </p> */}
-          <p>
+          {/* <p>
             <strong>কোর্ট নং:</strong>{" "}
             {isEditing ? (
               <input
@@ -235,19 +261,37 @@ const handleDeleteDate = (index) => {
             ) : (
               data.courtNo
             )}
-          </p>
+          </p> */}
           <p>
             <strong>থানা:</strong>{" "}
-            {isEditing ? (
-              <input
-                name="policeStation"
-                value={formData.policeStation || ""}
-                onChange={handleChange}
-                className="border px-2 py-1 rounded"
-              />
-            ) : (
-              data.policeStation
-            )}
+            {
+              isEditing ? (
+                <select
+                  name="policeStation"
+                  value={formData.policeStation || ""}
+                  className="select select-bordered"
+                  onChange={handleChange}
+                >
+                  <option value="gazipur_sadar">গাজীপুর সদর</option>
+                  <option value="bason">বাসন</option>
+                  <option value="tongi_east">টঙ্গি পূর্ব</option>
+                  <option value="tongi_west">টঙ্গি পশ্চিম</option>
+                  <option value="kona_bari">কোনাবাড়ি</option>
+                  <option value="kashempur">কাশেমপুর</option>
+                  <option value="pubail">পূবাইল</option>
+                  <option value="gacha">গাছা</option>
+                  <option value="joydebpur">জয়দেবপুর</option>
+                  <option value="sreepur">শ্রীপুর</option>
+                  <option value="kapashia">কাপাসিয়া</option>
+                  <option value="kaliakair">কালিয়াকৈর</option>
+                  <option value="kaliganj">কালীগঞ্জ</option>
+                </select>
+              ) : (
+                <span>
+                  {policeStationMap[data.policeStation] || data.policeStation}
+                </span>
+              )
+            }
           </p>
         </div>
 

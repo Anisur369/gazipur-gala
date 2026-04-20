@@ -1,6 +1,6 @@
 import { revalidatePath } from "next/cache";
-import { connect } from "../../lib/dbConnect";
-const kapashiaCollection = connect("kapashia2");
+import { connect } from "../../lib/dbConnect2";
+const kapashiaCollection = connect("kapashia");
 
 export async function GET(Request) {
   const result = await kapashiaCollection.find().toArray();

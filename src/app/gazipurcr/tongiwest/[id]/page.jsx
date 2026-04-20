@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation"; // ✅ ADD THIS
 import Swal from "sweetalert2";
 import CaseDetailsSkeleton from "@/components/skeletons/CaseDetailsSkeleton";
-const apiURL=process.env.NEXT_PUBLIC_apiSreepurCR;
+const apiURL=process.env.NEXT_PUBLIC_apiTongiWestCR;
 
 export default function CaseDetailsCard() {
   const [isEditing, setIsEditing] = useState(false);
